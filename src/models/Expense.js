@@ -198,7 +198,7 @@ const expenseSchema = new mongoose.Schema({
     ruleType: { type: String, required: true },
     ruleDescription: { type: String },
     triggered: { type: Boolean, default: false },
-    action: { type: String, enum: ['APPROVE', 'REJECT'] },
+    action: { type: String, enum: ['APPROVE', 'REJECT', null], default: null },
     details: { type: mongoose.Schema.Types.Mixed },
     evaluatedAt: { type: Date, default: Date.now },
     evaluatedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

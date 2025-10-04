@@ -219,7 +219,7 @@ const approvalService = {
         status: 'PENDING',
         'approvals.status': 'PENDING',
         'approvals.approverRole': approverRole
-      }).populate('employeeId', 'name email').sort({ createdAt: -1 });
+      }).sort({ createdAt: -1 });
 
       // Filter to only show expenses where current step matches the approver
       const filteredExpenses = expenses.filter(expense => {
@@ -241,14 +241,16 @@ const approvalService = {
       // Check for special approval flags
       if (options.directorOnly) {
         return {
-          type: 'DIRECTOR_ONLY',
+          type: 'SPECIFIC',
+          specificApproverRole: 'DIRECTOR',
           description: 'Director approval only - special authorization required'
         };
       }
       
       if (options.managerOnly) {
         return {
-          type: 'MANAGER_ONLY',
+          type: 'SPECIFIC',
+          specificApproverRole: 'MANAGER',
           description: 'Manager approval only - expedited process'
         };
       }
@@ -290,7 +292,7 @@ const approvalService = {
       const approvals = [];
 
       // Handle special approval types
-      if (approvalRules.type === 'DIRECTOR_ONLY') {
+      if (approvalRules.type === 'SPECIFIC' && approvalRules.specificApproverRole === 'DIRECTOR') {
         // Director approval only
         approvals.push({
           step: 1,
@@ -298,7 +300,7 @@ const approvalService = {
           approverRole: 'DIRECTOR',
           status: 'PENDING'
         });
-      } else if (approvalRules.type === 'MANAGER_ONLY') {
+      } else if (approvalRules.type === 'SPECIFIC' && approvalRules.specificApproverRole === 'MANAGER') {
         // Manager approval only
         approvals.push({
           step: 1,

@@ -1,0 +1,275 @@
+{
+  "info": {
+    "name": "Expense Management - Phase 6: Manager Dashboard APIs",
+    "description": "Collection for testing Manager Dashboard APIs with comprehensive filtering, analytics, and export functionality",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "API Status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/status",
+          "host": ["{{base_url}}"],
+          "path": ["api", "status"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Pending Expenses",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/pending",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "pending"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Pending Expenses with Filters",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/pending?category=TRAVEL&limit=5&page=1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "pending"],
+          "query": [
+            {
+              "key": "category",
+              "value": "TRAVEL"
+            },
+            {
+              "key": "limit",
+              "value": "5"
+            },
+            {
+              "key": "page",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Pending Expenses with Date Range",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/pending?dateRange={\"start\":\"2024-01-01\",\"end\":\"2024-12-31\"}&amountMin=100&amountMax=1000",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "pending"],
+          "query": [
+            {
+              "key": "dateRange",
+              "value": "{\"start\":\"2024-01-01\",\"end\":\"2024-12-31\"}"
+            },
+            {
+              "key": "amountMin",
+              "value": "100"
+            },
+            {
+              "key": "amountMax",
+              "value": "1000"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Expense History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/history",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "history"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Expense History with Filters",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/history?status=APPROVED&category=MEALS&limit=10&sortBy=amount&sortOrder=desc",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "history"],
+          "query": [
+            {
+              "key": "status",
+              "value": "APPROVED"
+            },
+            {
+              "key": "category",
+              "value": "MEALS"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            },
+            {
+              "key": "sortBy",
+              "value": "amount"
+            },
+            {
+              "key": "sortOrder",
+              "value": "desc"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Dashboard Statistics",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/stats",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "stats"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Dashboard Statistics with Date Range",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/stats?dateRange={\"start\":\"2024-01-01\",\"end\":\"2024-12-31\"}",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "stats"],
+          "query": [
+            {
+              "key": "dateRange",
+              "value": "{\"start\":\"2024-01-01\",\"end\":\"2024-12-31\"}"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Export Expenses to CSV",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/export?format=csv&limit=10",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "export"],
+          "query": [
+            {
+              "key": "format",
+              "value": "csv"
+            },
+            {
+              "key": "limit",
+              "value": "10"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Export Expenses to JSON",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/export?format=json&status=APPROVED&limit=5",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "export"],
+          "query": [
+            {
+              "key": "format",
+              "value": "json"
+            },
+            {
+              "key": "status",
+              "value": "APPROVED"
+            },
+            {
+              "key": "limit",
+              "value": "5"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Export Expenses with Complex Filters",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/test/manager/export?format=csv&dateRange={\"start\":\"2024-01-01\",\"end\":\"2024-12-31\"}&category=TRAVEL&amountMin=500&amountMax=2000",
+          "host": ["{{base_url}}"],
+          "path": ["api", "test", "manager", "export"],
+          "query": [
+            {
+              "key": "format",
+              "value": "csv"
+            },
+            {
+              "key": "dateRange",
+              "value": "{\"start\":\"2024-01-01\",\"end\":\"2024-12-31\"}"
+            },
+            {
+              "key": "category",
+              "value": "TRAVEL"
+            },
+            {
+              "key": "amountMin",
+              "value": "500"
+            },
+            {
+              "key": "amountMax",
+              "value": "2000"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
