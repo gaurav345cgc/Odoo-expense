@@ -1,0 +1,295 @@
+{
+  "info": {
+    "name": "Expense Management - Phase 4: Approval Workflow",
+    "description": "Postman collection for testing the Multi-step Approval Workflow system",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": ["{{base_url}}"],
+              "path": ["health"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "API Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "status"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Workflow Information",
+      "item": [
+        {
+          "name": "Get Workflow Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/workflow/info",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow", "info"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Expense Management",
+      "item": [
+        {
+          "name": "Create Test Expense (Small Amount)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 75,\n  \"currency\": \"USD\",\n  \"category\": \"MEALS\",\n  \"description\": \"Small business lunch\",\n  \"date\": \"2024-01-15\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Test Expense (Medium Amount)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 750,\n  \"currency\": \"USD\",\n  \"category\": \"TRAVEL\",\n  \"description\": \"Business trip accommodation\",\n  \"date\": \"2024-01-20\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Test Expense (Large Amount)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 2500,\n  \"currency\": \"USD\",\n  \"category\": \"SOFTWARE\",\n  \"description\": \"Annual software license\",\n  \"date\": \"2024-01-25\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Approval Workflow",
+      "item": [
+        {
+          "name": "Start Approval Workflow",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/workflow/start/{{expense_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow", "start", "{{expense_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Expenses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/workflow/pending",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow", "pending"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Expense",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comments\": \"Approved - valid business expense\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/workflow/approve/{{expense_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow", "approve", "{{expense_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Expense",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comments\": \"Rejected - missing receipt or invalid expense\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/workflow/reject/{{expense_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow", "reject", "{{expense_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Workflow Testing",
+      "item": [
+        {
+          "name": "Test Workflow Creation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1200,\n  \"category\": \"TRAVEL\",\n  \"description\": \"Test workflow with high amount requiring multiple approvals\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/workflow/test",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow", "test"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Statistics & History",
+      "item": [
+        {
+          "name": "Get Approval Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/workflow/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow", "statistics"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Approval Statistics by Role",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/workflow/statistics?role=MANAGER",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow", "statistics"],
+              "query": [
+                {
+                  "key": "role",
+                  "value": "MANAGER"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Approval History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/workflow/history/{{expense_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "workflow", "history", "{{expense_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "expense_id",
+      "value": "507f1f77bcf86cd799439999",
+      "type": "string",
+      "description": "Replace with actual expense ID from create expense response"
+    }
+  ]
+}

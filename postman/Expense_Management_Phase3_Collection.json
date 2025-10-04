@@ -1,0 +1,419 @@
+{
+  "info": {
+    "name": "Expense Management - Phase 3 OCR",
+    "description": "Phase 3: OCR Receipt Service - Automated expense entry using OCR on uploaded receipts",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "OCR Information",
+      "item": [
+        {
+          "name": "Get OCR Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-info",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-info"]
+            },
+            "description": "Get information about OCR service capabilities and supported formats"
+          },
+          "response": []
+        },
+        {
+          "name": "Get OCR Samples",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-samples",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-samples"]
+            },
+            "description": "Get sample receipt data for testing OCR functionality"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "OCR Testing",
+      "item": [
+        {
+          "name": "Test OCR - Coffee Receipt",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-test?filename=receipt_001.jpg",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-test"],
+              "query": [
+                {
+                  "key": "filename",
+                  "value": "receipt_001.jpg",
+                  "description": "Coffee shop receipt"
+                }
+              ]
+            },
+            "description": "Test OCR with coffee shop receipt (mock data)"
+          },
+          "response": []
+        },
+        {
+          "name": "Test OCR - Office Supplies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-test?filename=receipt_002.jpg",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-test"],
+              "query": [
+                {
+                  "key": "filename",
+                  "value": "receipt_002.jpg",
+                  "description": "Office supplies receipt"
+                }
+              ]
+            },
+            "description": "Test OCR with office supplies receipt (mock data)"
+          },
+          "response": []
+        },
+        {
+          "name": "Test OCR - Transport Receipt",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-test?filename=receipt_003.jpg",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-test"],
+              "query": [
+                {
+                  "key": "filename",
+                  "value": "receipt_003.jpg",
+                  "description": "Transport receipt"
+                }
+              ]
+            },
+            "description": "Test OCR with transport receipt (mock data)"
+          },
+          "response": []
+        },
+        {
+          "name": "Test OCR - Hotel Receipt",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-test?filename=receipt_004.jpg",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-test"],
+              "query": [
+                {
+                  "key": "filename",
+                  "value": "receipt_004.jpg",
+                  "description": "Hotel receipt"
+                }
+              ]
+            },
+            "description": "Test OCR with hotel receipt (mock data)"
+          },
+          "response": []
+        },
+        {
+          "name": "Test OCR - Restaurant (EUR)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-test?filename=receipt_005.jpg",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-test"],
+              "query": [
+                {
+                  "key": "filename",
+                  "value": "receipt_005.jpg",
+                  "description": "Restaurant receipt in EUR"
+                }
+              ]
+            },
+            "description": "Test OCR with restaurant receipt in EUR (mock data)"
+          },
+          "response": []
+        },
+        {
+          "name": "Test OCR - Invalid Filename",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-test?filename=nonexistent.jpg",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-test"],
+              "query": [
+                {
+                  "key": "filename",
+                  "value": "nonexistent.jpg",
+                  "description": "Non-existent file"
+                }
+              ]
+            },
+            "description": "Test OCR with non-existent filename (should return fallback data)"
+          },
+          "response": []
+        },
+        {
+          "name": "Test OCR - Missing Filename",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-test",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-test"]
+            },
+            "description": "Test OCR without filename parameter (should return error)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Receipt Upload",
+      "item": [
+        {
+          "name": "Upload Receipt Image",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "receipt",
+                  "type": "file",
+                  "src": [],
+                  "description": "Upload a receipt image file (JPEG, PNG, GIF, BMP, TIFF)"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-upload",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-upload"]
+            },
+            "description": "Upload a receipt image for OCR processing. The system will extract expense data automatically."
+          },
+          "response": []
+        },
+        {
+          "name": "Upload Receipt - No File",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": []
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/ocr-upload",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "ocr-upload"]
+            },
+            "description": "Test upload without file (should return error)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auto-Submit Expenses",
+      "item": [
+        {
+          "name": "Auto-Submit Valid Expense",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"extractedData\": {\n    \"amount\": 45.50,\n    \"currency\": \"USD\",\n    \"date\": \"2024-01-15\",\n    \"merchantName\": \"Starbucks Coffee\",\n    \"category\": \"MEALS\",\n    \"description\": \"Coffee and breakfast meeting\",\n    \"receiptUrl\": \"/uploads/test_receipt.jpg\"\n  },\n  \"ocrMetadata\": {\n    \"originalFilename\": \"receipt_001.jpg\",\n    \"processedAt\": \"2024-01-15T10:30:00.000Z\",\n    \"fileSize\": 1024,\n    \"fileType\": \"image/jpeg\",\n    \"confidence\": 0.95\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/auto-submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "auto-submit"]
+            },
+            "description": "Auto-submit an expense using OCR extracted data"
+          },
+          "response": []
+        },
+        {
+          "name": "Auto-Submit EUR Expense",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"extractedData\": {\n    \"amount\": 75.50,\n    \"currency\": \"EUR\",\n    \"date\": \"2024-01-19\",\n    \"merchantName\": \"Restaurant Le Bistro\",\n    \"category\": \"MEALS\",\n    \"description\": \"Client dinner meeting\",\n    \"receiptUrl\": \"/uploads/restaurant_receipt.jpg\"\n  },\n  \"ocrMetadata\": {\n    \"originalFilename\": \"receipt_005.jpg\",\n    \"processedAt\": \"2024-01-19T19:45:00.000Z\",\n    \"fileSize\": 2048,\n    \"fileType\": \"image/jpeg\",\n    \"confidence\": 0.91\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/auto-submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "auto-submit"]
+            },
+            "description": "Auto-submit an expense in EUR (will be auto-converted to USD)"
+          },
+          "response": []
+        },
+        {
+          "name": "Auto-Submit Office Supplies",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"extractedData\": {\n    \"amount\": 89.99,\n    \"currency\": \"USD\",\n    \"date\": \"2024-01-16\",\n    \"merchantName\": \"Office Depot\",\n    \"category\": \"OFFICE_SUPPLIES\",\n    \"description\": \"Office supplies and stationery\",\n    \"receiptUrl\": \"/uploads/office_receipt.jpg\"\n  },\n  \"ocrMetadata\": {\n    \"originalFilename\": \"receipt_002.jpg\",\n    \"processedAt\": \"2024-01-16T14:20:00.000Z\",\n    \"fileSize\": 1536,\n    \"fileType\": \"image/jpeg\",\n    \"confidence\": 0.92\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/auto-submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "auto-submit"]
+            },
+            "description": "Auto-submit office supplies expense"
+          },
+          "response": []
+        },
+        {
+          "name": "Auto-Submit Invalid Data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"extractedData\": {\n    \"amount\": -10,\n    \"currency\": \"INVALID\",\n    \"date\": \"invalid-date\",\n    \"merchantName\": \"\",\n    \"category\": \"INVALID_CATEGORY\",\n    \"description\": \"Invalid expense data\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/auto-submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "auto-submit"]
+            },
+            "description": "Test auto-submit with invalid data (should return validation errors)"
+          },
+          "response": []
+        },
+        {
+          "name": "Auto-Submit Missing Data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/auto-submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "auto-submit"]
+            },
+            "description": "Test auto-submit with missing data (should return error)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Integration Tests",
+      "item": [
+        {
+          "name": "Complete OCR Workflow",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"extractedData\": {\n    \"amount\": 250.00,\n    \"currency\": \"USD\",\n    \"date\": \"2024-01-18\",\n    \"merchantName\": \"Hilton Hotel\",\n    \"category\": \"ACCOMMODATION\",\n    \"description\": \"Business trip accommodation\",\n    \"receiptUrl\": \"/uploads/hotel_receipt.jpg\"\n  },\n  \"ocrMetadata\": {\n    \"originalFilename\": \"receipt_004.jpg\",\n    \"processedAt\": \"2024-01-18T16:30:00.000Z\",\n    \"fileSize\": 3072,\n    \"fileType\": \"image/jpeg\",\n    \"confidence\": 0.94\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/expenses/auto-submit",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "auto-submit"]
+            },
+            "description": "Complete workflow: OCR extraction → Auto-submit → Expense created"
+          },
+          "response": []
+        },
+        {
+          "name": "Check Created Expenses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/my",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "my"]
+            },
+            "description": "Check all expenses to see OCR-created ones"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expense Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/expenses/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["api", "expenses", "statistics"]
+            },
+            "description": "Get expense statistics including OCR-created expenses"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "description": "Base URL for the Expense Management API"
+    }
+  ]
+}

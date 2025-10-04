@@ -1,0 +1,207 @@
+{
+  "info": {
+    "name": "Expense Management System - Phase 1 Testing",
+    "description": "Comprehensive testing collection for Phase 1: Base Setup & Expense Schema Design",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Basic health check endpoint to verify server is running"
+          },
+          "response": []
+        },
+        {
+          "name": "API Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "status"]
+            },
+            "description": "Get API status and available endpoints information"
+          },
+          "response": []
+        }
+      ],
+      "description": "Basic health and status endpoints"
+    },
+    {
+      "name": "Database & Models Testing",
+      "item": [
+        {
+          "name": "Database Connection Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/db/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "db", "test"]
+            },
+            "description": "Test database connection and get collection counts"
+          },
+          "response": []
+        },
+        {
+          "name": "Expense Model Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "test"]
+            },
+            "description": "Test Expense model and retrieve sample expenses"
+          },
+          "response": []
+        },
+        {
+          "name": "ExpenseLog Model Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/logs/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "logs", "test"]
+            },
+            "description": "Test ExpenseLog model and retrieve sample logs"
+          },
+          "response": []
+        }
+      ],
+      "description": "Test database connections and model functionality"
+    },
+    {
+      "name": "Error Testing",
+      "item": [
+        {
+          "name": "404 Route Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/nonexistent",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "nonexistent"]
+            },
+            "description": "Test 404 error handling for non-existent routes"
+          },
+          "response": []
+        },
+        {
+          "name": "Invalid Method Test",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"test\": \"data\"}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Test invalid HTTP method handling"
+          },
+          "response": []
+        }
+      ],
+      "description": "Test error handling and edge cases"
+    },
+    {
+      "name": "Mock Data Validation",
+      "item": [
+        {
+          "name": "Validate Mock Company ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/db/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "db", "test"]
+            },
+            "description": "Validate that mock company ID is properly configured"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Mock Employee ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/db/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "db", "test"]
+            },
+            "description": "Validate that mock employee ID is properly configured"
+          },
+          "response": []
+        }
+      ],
+      "description": "Validate mock data configuration"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script for all requests",
+          "console.log('Testing Expense Management System - Phase 1');",
+          "console.log('Base URL:', pm.variables.get('baseUrl'));"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test script for all requests",
+          "pm.test('Response time is less than 5000ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "pm.test('Response has valid JSON', function () {",
+          "    if (pm.response.headers.get('Content-Type') && pm.response.headers.get('Content-Type').includes('application/json')) {",
+          "        pm.response.to.have.jsonBody();",
+          "    }",
+          "});"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,516 @@
+{
+  "info": {
+    "name": "Expense Management System - Phase 2 Testing",
+    "description": "Comprehensive testing collection for Phase 2: Expense CRUD + Currency Integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "2.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "expenseId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Phase 1 - Health & Status",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Basic health check endpoint"
+          },
+          "response": []
+        },
+        {
+          "name": "API Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "status"]
+            },
+            "description": "Get API status and available endpoints"
+          },
+          "response": []
+        }
+      ],
+      "description": "Basic health and status endpoints from Phase 1"
+    },
+    {
+      "name": "Phase 2 - Expense Management",
+      "item": [
+        {
+          "name": "Get Supported Currencies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/currencies",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "currencies"]
+            },
+            "description": "Get list of supported currencies for expense creation"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expense Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "categories"]
+            },
+            "description": "Get list of valid expense categories"
+          },
+          "response": []
+        },
+        {
+          "name": "Test Currency Conversion",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/test-conversion?amount=100&from=USD&to=EUR",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "test-conversion"],
+              "query": [
+                {
+                  "key": "amount",
+                  "value": "100"
+                },
+                {
+                  "key": "from",
+                  "value": "USD"
+                },
+                {
+                  "key": "to",
+                  "value": "EUR"
+                }
+              ]
+            },
+            "description": "Test currency conversion functionality"
+          },
+          "response": []
+        },
+        {
+          "name": "Create New Expense",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    const response = pm.response.json();",
+                  "    if (response.expense && response.expense.id) {",
+                  "        pm.collectionVariables.set('expenseId', response.expense.id);",
+                  "        console.log('Expense ID stored:', response.expense.id);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 150.50,\n  \"currency\": \"USD\",\n  \"category\": \"MEALS\",\n  \"description\": \"Client lunch meeting at downtown restaurant\",\n  \"date\": \"2024-01-15\",\n  \"receiptUrl\": \"https://example.com/receipt.jpg\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses"]
+            },
+            "description": "Create a new expense with currency conversion"
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Expenses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/my",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "my"]
+            },
+            "description": "Get employee's expenses with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Expenses with Filters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/my?page=1&limit=5&status=PENDING&category=MEALS&sortBy=date&sortOrder=desc",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "my"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "5"
+                },
+                {
+                  "key": "status",
+                  "value": "PENDING"
+                },
+                {
+                  "key": "category",
+                  "value": "MEALS"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "date"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "desc"
+                }
+              ]
+            },
+            "description": "Get expenses with filtering and pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expense by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/{{expenseId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "{{expenseId}}"]
+            },
+            "description": "Get specific expense by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Expense",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Updated: Client lunch meeting at downtown restaurant\",\n  \"amount\": 175.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/{{expenseId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "{{expenseId}}"]
+            },
+            "description": "Update an existing expense"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expense Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/{{expenseId}}/logs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "{{expenseId}}", "logs"]
+            },
+            "description": "Get audit trail for an expense"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Expense Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/statistics",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "statistics"]
+            },
+            "description": "Get expense statistics for employee"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Expense",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/{{expenseId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "{{expenseId}}"]
+            },
+            "description": "Delete an expense (only if status is PENDING)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Core expense management endpoints"
+    },
+    {
+      "name": "Phase 2 - Validation Tests",
+      "item": [
+        {
+          "name": "Create Invalid Expense - Missing Amount",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currency\": \"USD\",\n  \"category\": \"MEALS\",\n  \"description\": \"Test expense without amount\",\n  \"date\": \"2024-01-15\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses"]
+            },
+            "description": "Test validation - missing required amount field"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Invalid Expense - Invalid Currency",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100,\n  \"currency\": \"INVALID\",\n  \"category\": \"MEALS\",\n  \"description\": \"Test expense with invalid currency\",\n  \"date\": \"2024-01-15\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses"]
+            },
+            "description": "Test validation - invalid currency code"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Invalid Expense - Future Date",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100,\n  \"currency\": \"USD\",\n  \"category\": \"MEALS\",\n  \"description\": \"Test expense with future date\",\n  \"date\": \"2025-12-31\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses"]
+            },
+            "description": "Test validation - future date not allowed"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Invalid Expense - Invalid Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 100,\n  \"currency\": \"USD\",\n  \"category\": \"INVALID_CATEGORY\",\n  \"description\": \"Test expense with invalid category\",\n  \"date\": \"2024-01-15\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses"]
+            },
+            "description": "Test validation - invalid expense category"
+          },
+          "response": []
+        },
+        {
+          "name": "Update with Empty Body",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/{{expenseId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "{{expenseId}}"]
+            },
+            "description": "Test validation - empty update body"
+          },
+          "response": []
+        }
+      ],
+      "description": "Validation and error handling tests"
+    },
+    {
+      "name": "Phase 2 - Error Handling",
+      "item": [
+        {
+          "name": "Get Non-existent Expense",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/507f1f77bcf86cd799439999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "507f1f77bcf86cd799439999"]
+            },
+            "description": "Test 404 error for non-existent expense"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Non-existent Expense",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Trying to update non-existent expense\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/507f1f77bcf86cd799439999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "507f1f77bcf86cd799439999"]
+            },
+            "description": "Test 404 error when updating non-existent expense"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Non-existent Expense",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/expenses/507f1f77bcf86cd799439999",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "expenses", "507f1f77bcf86cd799439999"]
+            },
+            "description": "Test 404 error when deleting non-existent expense"
+          },
+          "response": []
+        }
+      ],
+      "description": "Error handling and edge cases"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Pre-request script for all requests",
+          "console.log('Testing Expense Management System - Phase 2');",
+          "console.log('Base URL:', pm.variables.get('baseUrl'));"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test script for all requests",
+          "pm.test('Response time is less than 5000ms', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "pm.test('Response has valid JSON', function () {",
+          "    if (pm.response.headers.get('Content-Type') && pm.response.headers.get('Content-Type').includes('application/json')) {",
+          "        pm.response.to.have.jsonBody();",
+          "    }",
+          "});",
+          "",
+          "// Test for successful responses",
+          "if (pm.response.code >= 200 && pm.response.code < 300) {",
+          "    pm.test('Response has success message or data', function () {",
+          "        const response = pm.response.json();",
+          "        pm.expect(response).to.have.property('message');",
+          "    });",
+          "}",
+          "",
+          "// Test for error responses",
+          "if (pm.response.code >= 400) {",
+          "    pm.test('Error response has proper structure', function () {",
+          "        const response = pm.response.json();",
+          "        pm.expect(response).to.have.property('message');",
+          "    });",
+          "}"
+        ]
+      }
+    }
+  ]
+}

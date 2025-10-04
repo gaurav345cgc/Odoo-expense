@@ -1,0 +1,118 @@
+{
+  "companyRules": {
+    "companyId": "507f1f77bcf86cd799439011",
+    "rules": [
+      {
+        "id": "rule_percentage_60",
+        "type": "PERCENTAGE",
+        "description": "Auto-approve when 60% of approvals are received",
+        "threshold": 60,
+        "requiredApprovals": 1,
+        "enabled": true,
+        "priority": 1
+      },
+      {
+        "id": "rule_specific_cfo",
+        "type": "SPECIFIC",
+        "description": "Auto-approve when CFO approves",
+        "approverRole": "CFO",
+        "enabled": true,
+        "priority": 2
+      },
+      {
+        "id": "rule_hybrid_60_or_cfo",
+        "type": "HYBRID",
+        "description": "Auto-approve when 60% OR CFO approves",
+        "rule": "60% OR CFO",
+        "conditions": [
+          { "type": "PERCENTAGE", "threshold": 60 },
+          { "type": "SPECIFIC", "approverRole": "CFO" }
+        ],
+        "enabled": true,
+        "priority": 3
+      },
+      {
+        "id": "rule_amount_1000",
+        "type": "AMOUNT_THRESHOLD",
+        "description": "Auto-approve when amount >= $1000",
+        "threshold": 1000,
+        "enabled": true,
+        "priority": 4
+      },
+      {
+        "id": "rule_category_office_supplies",
+        "type": "CATEGORY_SPECIFIC",
+        "description": "Auto-approve when OFFICE_SUPPLIES category and DIRECTOR approves",
+        "category": "OFFICE_SUPPLIES",
+        "approverRole": "DIRECTOR",
+        "enabled": true,
+        "priority": 5
+      },
+      {
+        "id": "rule_emergency_approval",
+        "type": "SPECIFIC",
+        "description": "Emergency approval by any DIRECTOR or CFO",
+        "approverRole": "DIRECTOR",
+        "enabled": true,
+        "priority": 6
+      },
+      {
+        "id": "rule_travel_high_amount",
+        "type": "HYBRID",
+        "description": "Auto-approve TRAVEL expenses over $2000 OR when CFO approves",
+        "rule": "TRAVEL >= $2000 OR CFO",
+        "conditions": [
+          { "type": "AMOUNT_THRESHOLD", "threshold": 2000, "category": "TRAVEL" },
+          { "type": "SPECIFIC", "approverRole": "CFO" }
+        ],
+        "enabled": true,
+        "priority": 7
+      }
+    ]
+  },
+  "departmentRules": {
+    "engineering": [
+      {
+        "id": "rule_eng_software_auto",
+        "type": "CATEGORY_SPECIFIC",
+        "description": "Auto-approve SOFTWARE purchases for Engineering",
+        "category": "SOFTWARE",
+        "approverRole": "MANAGER",
+        "enabled": true
+      }
+    ],
+    "sales": [
+      {
+        "id": "rule_sales_entertainment",
+        "type": "CATEGORY_SPECIFIC",
+        "description": "Auto-approve ENTERTAINMENT expenses for Sales",
+        "category": "ENTERTAINMENT",
+        "approverRole": "MANAGER",
+        "enabled": true
+      }
+    ]
+  },
+  "globalRules": [
+    {
+      "id": "rule_global_ceo_override",
+      "type": "SPECIFIC",
+      "description": "CEO can approve any expense",
+      "approverRole": "CEO",
+      "enabled": true,
+      "priority": 0
+    },
+    {
+      "id": "rule_global_emergency",
+      "type": "HYBRID",
+      "description": "Emergency approval: 50% OR any DIRECTOR/CFO",
+      "rule": "50% OR DIRECTOR OR CFO",
+      "conditions": [
+        { "type": "PERCENTAGE", "threshold": 50 },
+        { "type": "SPECIFIC", "approverRole": "DIRECTOR" },
+        { "type": "SPECIFIC", "approverRole": "CFO" }
+      ],
+      "enabled": true,
+      "priority": 1
+    }
+  ]
+}
